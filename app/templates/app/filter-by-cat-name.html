@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+
+{% block title %}Product category {% endblock title %}
+
+{% block content %}
+
+<!--Searching-->
+{% include 'search_form.html' %}
+
+
+    <!-- Explore button -->
+<section class="my-4">
+    <div class="container px-0">
+        <div class="row">
+            <div class="col-md-3"></div>
+            <div class="col-md-6">
+                <div class="d-flex justify-content-center">
+                    <a class="explore_button" href="/">Home</a>
+                    {% if category %}
+                    {% for data in category %}
+                    <a class="explore_button" href="{% url 'filter-by-cat-name' cat_id=data.id %}">{{data.name}}</a>
+                    {% endfor %}{% endif %}
+                </div>
+            </div>
+            <div class="col-md-3"></div>
+        </div>
+    </div>	
+</section>
+
+<!-- Free Stock Photos -->
+<section>
+    <div class="container px-0 mb-4">
+        <h2>Free Stock Photos</h2>
+        {% include 'app/item-card.html' %}
+
+        <!--Pagination-->
+        {% include 'pagination.html' %}
+    </div>
+</section>
+
+{% endblock content %}

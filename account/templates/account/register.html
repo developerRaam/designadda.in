@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+{% block title %} User register here {% endblock title %}
+
+{% block content %}
+
+<section class="container">
+    
+        <div class="row" style="margin-top:20px;margin-bottom:20px">
+
+            {% for message in messages %}
+            <div class="alert alert-{{ message.tags }} mb-0 alert-dismissible fade show text-center" role="alert">
+                {{message}}
+            </div>
+            {% endfor %}
+
+            <div class="col-md-2 "></div>
+            <div class="col-md-8">
+                <div class="bg-light card p-4 shadow-lg bg-body">
+                    <h2>User Register Form</h2>
+                    <form class="my-2" action="{% url 'register' %}" method="post">
+                        {% csrf_token %}
+                        <div>
+                            <input type="text" class="form-control my-3" name="first_name" placeholder="Enter first name" required>
+                        </div>
+                        <div>
+                            <input type="text" class="form-control my-3" name="last_name" placeholder="Enter last name" required>
+                        </div>
+                        <div>
+                            <input type="text" class="form-control my-3" name="mobile" placeholder="Enter Mobile number" required>
+                        </div>
+                        <div>
+                            <input type="email" class="form-control my-3" name="email" placeholder="Enter email" required>
+                        </div>
+                        <div>
+                            <input type="password" class="form-control my-3" name="password" placeholder="Enter password" required>
+                        </div>
+                        
+                        <div>
+                            <input class="btn btn-outline-success my-3" type="submit" name="register" id="" value="Register">
+                        </div>
+                        <div class="mt-2">
+                            <p>Already have an account? <a href="/account/login">Login</a></p>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+  
+
+</section>
+{% endblock content %}

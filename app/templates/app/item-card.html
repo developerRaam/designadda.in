@@ -1,0 +1,38 @@
+<div class="row gy-4">
+  {% if product %}
+    {% for data in product %}
+    <div class="col-6 col-sm-6 col-md-4 col-lg-3">
+        <div class="card">
+          <a href="{% url 'detail' prd_slug=data.slug %}">
+            <img class="card-img w-100" height="250" src="{{data.image.url}}" alt="{{data.product_name}}">
+            <div class="home_image_name">
+                <span>
+                    {{data.product_name}}
+                </span>
+            </div>
+          </a>
+          <div class="image_like_book_share">
+            <a data-toggle="tooltip" data-placement="top" title="Like" class="like btn bg-light me-3" href="#"><i class="fa-regular fa-heart"></i></a>
+            <a data-toggle="tooltip" data-placement="top" title="Save" class="bookmark btn bg-light me-3" href="#"><i class="fa-regular fa-bookmark"></i></a>
+            <a data-toggle="tooltip" data-placement="top" title="Share" class="share btn bg-light me-1" href="#"><i class="fa-solid fa-share"></i></a>
+          </div>
+        </div>
+    </div>
+    {% endfor %}
+    {% else %}
+      <div class="ms-5 p-5">
+        {% if search_bar %}
+            <p>Your search - <strong>{{search_bar}}</strong> - did not match any product.</p> 
+            Suggestions:
+              <ul>
+                  <li>Make sure that all words are spelled correctly.</li>
+                  <li>Try different keywords.</li>
+                  <li>Try more general keywords.</li>
+                  <li>Try fewer keywords.</li>
+              </ul>
+        {% else %}
+          <h4 class="text-center">Item Not Found</h4>
+        {% endif %}
+      </div>
+      {% endif %}
+</div>

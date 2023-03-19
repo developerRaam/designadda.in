@@ -1,0 +1,81 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %} Payment {% endblock title %}
+
+{% block style %}
+td{
+    font-size:14px;
+}
+
+{% endblock style %}
+
+{% block content %}
+{% if filesize and filetype %}
+<section class="py-3">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="">
+                    <img class="w-100" height="500" src="https://pbs.twimg.com/media/FfCDllCVsAATEwY?format=jpg&name=large" alt="">
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="card shadow-sm">
+                    <div class="card-body">
+                        <table class="table table-bordered">
+                            <tr>
+                                <td><strong>Name </strong></td>
+                                <td>{{is_customer}}</td>
+                            <tr>
+                                <td><strong>Email</strong> </td>
+                                <td>{{customer_email}}</td>
+                            </tr>
+                            </tr>
+                            <tr>
+                                <td><strong>Product Name</strong> </td>
+                                <td>{{order.product_name}}</td>
+                            </tr>
+                            <tr>
+                                <td><strong>File Name</strong> </td>
+                                <td class="d-flex">{{filename | slice:"12:"}}</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Type</strong> </td>
+                                <td class="d-flex">{{filetype | slice:"14:"}}</td>
+                            </tr>
+                            <tr>
+                                <td><strong>File Size </strong></td>
+                                <td>{{filesize | filesizeformat}}</td>
+                            </tr>
+                        </table>
+                        <form action="" method="post">
+                            {% csrf_token %}
+                            <div>
+                                <h5 style="font-family: sans-serif;">Total Price Rs.{{order.price}}</h5>
+                            </div>
+                            <div class="mt-3">
+                                <div>
+                                    <input class="mb-3" type="radio" name="payment" value="instamojo"> 
+                                    <img height="50" src="{% static 'images/icons/razorpay.PNG' %}" alt="Razorpay" style="margin-top: -10px;">
+                                </div>
+                                <div>
+                                    <input type="radio" name="payment" value="instamojo"> 
+                                    <img height="50" src="{% static 'images/icons/paytm.PNG' %}" alt="Paytm" style="margin-top: -10px;">
+                                </div>
+                            </div>
+                            {{skorderno}}
+                            {% comment %} <div class="mt-3">
+                                <input type="radio" name="payment" value="phonepay"> PhonePay
+                            </div> {% endcomment %}
+                            <div class="mt-3">
+                                <input type="submit" class="w-100 btn btn-success" name="sunmit" id="submit" value="Pay">
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endif %}
+{% endblock content %}

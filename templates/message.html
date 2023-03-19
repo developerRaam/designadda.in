@@ -1,0 +1,8 @@
+{% for message in messages %}
+   <div style="margin-top:2rem;"></div>
+      <div class="e_message" id="e_message"> <span class="alert alert-{{ message.tags }} alert-dismissible fade show text-center" role="alert">
+         {{message}} 
+         <a href="javascript:void(0)" class="btn-close" onclick="closeBtn()"></a>
+      </span>
+      </div>
+{% endfor %}

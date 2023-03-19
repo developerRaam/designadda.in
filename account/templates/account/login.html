@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+{% block title %}Login page{% endblock title %}
+
+{% block content %}
+
+<section class="container">
+    <div class="row" style="margin-top:50px;margin-bottom:50px">
+        <div class="col-md-3"></div>
+        <div class="col-md-6">
+            <div class="bg-light card p-4 shadow-lg bg-body">
+                {% for message in messages %}
+                <div class="alert alert-info mt-2 text-center" role="alert">
+                    {{message}}
+                </div>
+                {% endfor %}
+                <div class="p-4">
+                    <!-- Login -->
+                    <form id="login" class="mt-4" action="{% url 'login' %}" method="post">
+                        {% csrf_token %}
+                        <h2>User Login</h2>
+                        <div>
+                            <label for="username">Email</label>
+                            <input type="email" class="form-control mb-3" name="email" placeholder=" Email" required>
+                        </div>
+                        <div>
+                            <label for="password">Password</label>
+                            <input type="password" class="form-control mb-3" name="password" placeholder=" password" required>
+                        </div>
+                        <div>
+                            <input type="submit" class="btn btn-outline-success" type="submit" name="login" id="" value="Login">
+                        </div>
+                        <div class="mt-2">
+                            <p>Do not have an account? <a href="/account/register">SignUp</a> | <a href="/account/forgot">Forgot</a> </p>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock content %}

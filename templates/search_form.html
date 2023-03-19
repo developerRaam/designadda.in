@@ -1,0 +1,11 @@
+<section>
+    <div class="text-center">
+        <form class="d-flex justify-content-center" action="{% url 'search' %}" method="get">
+            <input class="form-control w-75 mt-3 shadow-sm p-3" value="{{search_bar}}" type="search" name="q" placeholder="Search for free photo designs" aria-label="Search" required>
+            <button class="search_btn" name="submit" type="submit"><i class="fa-solid fa-magnifying-glass"></i></button>
+         </form>
+         {% if search_bar %}
+         <p class="mt-2" style="font-size:14px">Your Query - <strong>{{search_bar}}</strong></p>
+         {% endif %}
+    </div>
+</section>

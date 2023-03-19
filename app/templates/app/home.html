@@ -1,0 +1,58 @@
+{% extends 'base.html' %}
+{% block title %} Welcome to SKgraphics {% endblock title %}
+{% load static %}
+
+{% block content %}
+
+{% for message in messages %}
+    <script>
+        alert('{{message}}')
+    </script>
+{% endfor %}
+<!-- Header image -->
+<section>
+    <div class="search_img">
+        <img class="w-100" height="400" src="{% static 'images/banner/banner.jpg' %}" alt="img">
+        <div class="search_bar">
+            <h2 class="text-center text-white">The best free stock design of photos, <br> royalty free images shared by creators.</h2><br>
+            <form class="d-flex justify-content-center" action="{% url 'search' %}" method="get">
+                <input class="form-control w-75 search_input rounded" type="search" name="q" placeholder="Search for free photo designs" aria-label="Search">
+                <button class="search_btn mt-0" name="submit" type="submit"><i class="fa-solid fa-magnifying-glass"></i></button>
+            </form><br>
+            <div class="d-flex justify-content-center">
+                <span class="text-info">Trending : &nbsp;</span>
+                <a class="text-white text-decoration-none" style="margin-right: 5px;" href="#">Animal,</a>
+                <a class="text-white text-decoration-none" style="margin-right: 5px;" href="#">Corian,</a>
+                <a class="text-white text-decoration-none" style="margin-right: 5px;" href="#">Texture</a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Explore button -->
+<section class="my-4">
+    <div class="container px-0">
+        <div class="col-md-12">
+            <div class="d-flex justify-content-center flex-wrap">
+                {% if category %}
+                    {% for data in category %}
+                        <a class="explore_button" href="{% url 'filter-by-cat-name' cat_id=data.id %}">{{data.name}}</a>
+                    {% endfor %}
+                {% endif %}
+            </div>
+        </div>
+    </div>	
+</section>
+
+<!-- Free Stock Photos -->
+<section>
+    <div class="container mb-4">
+        <h2>Free Stock Photos</h2>
+        {% include 'app/item-card.html' %}
+
+        <!--Pagination-->
+        {% include 'pagination.html' %}
+    </div>
+</section>
+
+{% endblock content %}

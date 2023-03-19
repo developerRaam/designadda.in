@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+{% block title %} Password forgot by user{% endblock title %}
+
+{% block content %}
+{% if user.is_authenticated %}
+    <h3 class="text-center my-5">Go back to the login page <a href="/user">Home</a></h3>
+{% else %}
+<section class="container">
+        <div class="row" style="margin-top:80px; margin-bottom:80px;">
+            <div class="col-md-3"></div>
+            <div class="col-md-7 bg-light">
+                {% for message in messages %}
+                <div class="alert alert-info mt-2 text-center" role="alert">
+                    {{message}}
+                </div>
+                {% endfor %}
+                <div class="card shadow-lg p-4">
+                    <!-- Login -->
+                    <form id="login" class="mt-4" action="{% url 'login' %}" method="post">
+                        {% csrf_token %}
+                        <h2>User Login</h2>
+                        {% comment %} <div>
+                            <label for="username">Username</label>
+                            <input type="text" class="form-control mb-3" name="username" placeholder=" username" required>
+                        </div> {% endcomment %}
+                        <div>
+                            <label for="email">Email</label>
+                            <input type="email" class="form-control mb-3" name="email" placeholder=" email" required>
+                        </div>
+                        <div>
+                            <input type="submit" class="btn btn-outline-success" type="submit" name="send-email" id="" value="Send Email">
+                        </div>
+                        <div class="mt-2">
+                            <p>Do not have an account? <a href="/register">SignUp</a></p>
+                        </div>
+                    </form>
+                </div>
+            </div>
+    </div>
+
+</section>
+{% endif %}
+{% endblock content %}

@@ -1,0 +1,69 @@
+{% extends 'base.html' %}
+{% load social_share %}
+{% load static %}
+
+{% block title %} Download image here {% endblock title %}
+
+{% block content  %}
+{% if prd_data %}
+    <section>
+        <div class="container px-0">
+            <div class="row">
+                <div class="col-md-3"></div>
+                <div class="col-md-6">
+                    <figure class="text-center mt-3">
+                        <img id="imgpath" id="image" style="width: 100%" src="{{prd_data.image.url}}" alt="{{prd_data.product_name}}" >
+                            
+                    </figure>
+                    {% comment %} <h4>{{prd_data.product_name }}</h4> {% endcomment %}
+
+                    <div class="text-center mt-4">
+                        <table class="table table-bordered">
+                            <tr>
+                                <td class="details_heading">File Name</td>
+                                <td><h5>{{filename | slice:"12:"}}</h5></td>
+                            </tr>
+                            <tr>
+                                <td class="details_heading">Specification</td>
+                                <td><div style="font-size:15px">{{prd_data.description | safe }}</div></td>
+                            </tr>
+                            <tr>
+                                <td class="details_heading">File Format</td>
+                                <td><h5>{{filetype |slice:"14:" }}</h5></td>
+                            </tr>
+                            <tr>
+                                <td class="details_heading">File Size</td>
+                                <td><h5>{{filesize | filesizeformat}}</h5></td>
+                            </tr>
+                        </table>
+                    </div>
+
+                    {% comment %} <div class="text-center py-3">
+                        <a class="btn btn-primary" href="{{prd_data.image.url}}" download>
+                            Download Image
+                        </a>
+                    </div> {% endcomment %}
+                    {% if filesize %}
+                    <div class="text-center py-3">
+                        <a class="btn btn-primary" href="{% url 'payment' item_id=prd_data.id prd_slug=prd_data.slug %}">
+                            Order Product
+                        </a>
+                    </div>
+                    {% else %}
+                    <div class="text-center py-3 desable">
+                        <p>
+                            <span class="text-dark bg-danger p-3">Product Not Available</span>
+                        </p>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </section>
+{% endif %}
+
+
+
+
+
+{% endblock content  %}

@@ -1,0 +1,55 @@
+{% load static %}
+<header class="py-1 container">
+    <div class="d-flex justify-content-center align-items-center">
+        <img class="sitelogo" height="100" src="{% static 'images/icons/Design-Adda-Logo.png' %}" alt="">
+        <h2 class="ms-3 sitename"  style=""><a class="text-decoration-none" href="/">DesignAdda<span>.in</span></a></h2>
+    </div>
+</header>
+
+<!-- Navbar -->
+<nav class="navbar navbar-expand-lg navbar-light sticky-top linear-greadient">
+    <div class="container">
+        <a class="navbar-brand text-white home_btn1" href="/">Home</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse justify-content-center" id="navbarSupportedContent">
+            <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+                <li class="nav-item home_btn2">
+                    <a class="nav-link active text-white" aria-current="page" href="/">Home</a>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle text-white" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        Desgin
+                    </a>
+                    <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        {% for data in category %}
+                            <li><a class="dropdown-item" href="{% url 'filter-by-cat-name' cat_id=data.id %}">{{data.name}}</a></li>
+                        {% endfor %}
+                    </ul>
+                </li>
+                {% if is_customer %}
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle text-white" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            {{ is_customer }}
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <li><a class="dropdown-item" href="/">Home</a></li>
+                            <li><a class="dropdown-item" href="/">Your Product</a></li>
+                            <li><a class="dropdown-item" href="/account">Account</a></li>
+                            <li><a class="dropdown-item" href="/change-password">Change Password</a></li>
+                            {% comment %} <li><a class="dropdown-item" href="/cart">Cart</a></li>
+                            <li><a class="dropdown-item" href="/ordered">Ordered</a> {% endcomment %}
+                            <li><a class="dropdown-item" href="/logout">Logout</a></li>
+                        </ul>
+                    </li>
+                 {% else %}
+                 <li>
+                    <a class="btn btn-outline-dark text-white" href="/account">Account</a>
+                </li>
+                {% endif %}
+                
+            </ul>
+        </div>
+    </div>
+</nav>

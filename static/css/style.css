@@ -1,0 +1,185 @@
+@import url('../font/Poppins-Medium.ttf');
+*{
+	font-family: 'Poppins', sans-serif;
+}
+::selection{
+	color: #ddd;
+	background-color: #000;
+}
+body{
+
+	box-sizing: border-box;
+	overflow-x: hidden;
+	background: #ddd;
+}
+
+.linear-greadient{
+	    background: linear-gradient(45deg, #101010, #1e73af);
+}
+
+/* Navbar */
+.sk_navbar{
+	position: absolute !important;
+	width: 100%;
+	z-index: 1;
+}
+
+.search_img img{
+	opacity: 1;
+}
+
+.search_bar{
+  position: absolute;
+  width: 100%;
+  top: 60%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+.search_input{
+	height: 50px;
+	border-top-left-radius: 5px !important;
+	border-bottom-left-radius: 5px !important;
+	border-top-right-radius: 0px !important;
+	border-bottom-right-radius: 0px !important;
+	border: none !important;
+}
+.search_btn{
+	border-radius: 0px !important;
+    border: none;
+    background: none;
+    margin-left: -42px;
+    margin-top: 16px;
+    border-top-left-radius: 0px !important;
+    border-bottom-left-radius: 0px !important;
+    border-top-right-radius: 5px !important;
+    border-bottom-right-radius: 5px !important;
+}
+.search_btn i{
+	margin-right: 10px;
+}
+
+/*Explore button*/
+.explore_button{
+	padding: 10px 20px 10px 20px;
+    border: 2px solid #000;
+    margin: 15px;
+    color: #000;
+    text-decoration: none;
+}
+.explore_button:hover{
+	color: #fff;
+	background: #000;
+	border: 2px solid #000;
+
+}
+
+/* photo */
+
+.photo_detail{
+    background-color: #deefe8;
+    color: #000;
+	padding-top: 1px;
+}
+
+
+/* Home */
+.card{
+	position:relative;
+  }
+  
+  .card-img {
+	box-shadow: 0px 1px 14px 1px #BBB4B4;
+  }
+  .card-img:hover{
+	box-shadow: 0 0 0 0 #fff;
+  }
+  
+  .home_image_name{
+	position: absolute;
+	bottom: 0;
+	left: 0;
+	width: 100%;
+	padding-top: 10px;
+	padding-bottom: 10px;
+	background-color: #0c0c0c3b;
+	padding-left: 5px;
+	padding-right: 5px;
+  }
+  .home_image_name span{
+	text-align: justify;
+    font-size: 17px;
+	color: #fff;
+    font-weight: 500;
+    padding-right: 10px;
+  }
+
+  .image_like_book_share{
+	display: flex;
+    justify-content: end;
+    align-items: end;
+    position: absolute;
+    width: 100%;
+	margin-top: 5px;
+  }
+  .image_like_book_share .like:hover{
+	background-color: #ddd !important;
+  }
+  .image_like_book_share .bookmark:hover{
+	background-color: #ddd !important;
+  }
+  .image_like_book_share .share:hover{
+	background-color: #ddd !important;
+  }
+
+  /*=========== Registraion ===============*/
+
+  .user_login{
+	text-align: center;
+	margin-top: 50px;
+  }
+  .user_login span i{
+	color: #ddd;
+	font-size: 200px;
+  }
+  
+
+
+  /*================ Share================*/
+  .facebook-this a{
+	text-decoration: none;
+    color: #000;
+  }
+  .whatsapp-this a{
+	text-decoration: none;
+    color: #000;
+  }
+
+/*================ Details ===================*/
+.details_heading{
+	font-weight: bolder;
+    color: #b74b4b;
+}
+
+/*=============== message ==================*/
+.e_message{
+	text-align: right;
+  }
+  .e_message span{
+	padding-left:3rem;
+	padding-right:3rem;
+	margin-right: 1rem;
+	font-family: fangsong;
+	font-weight: bolder;
+  }
+  .btn-close {
+	  height: 0 !important;
+	  margin-top: 0.35rem !important;
+  }
+  .btn-close:focus {
+	box-shadow: none !important;
+  }
+
+/*=============== */
+.sitename{
+	font-size:6rem;
+}

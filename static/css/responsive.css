@@ -1,0 +1,32 @@
+/* Large devices (desktops, 992px and up) */
+@media (min-width: 991px) { 
+    .home_btn1{
+        display: none;
+    }
+    .home_btn2{
+        display: block;
+    }
+}
+
+/* Below 560px  */
+@media (max-width: 990px ) {
+    .home_btn1{
+        display: block;
+    }
+    .home_btn2{
+        display: none;
+    }
+    .search_bar{
+		position: absolute;
+		width: 100%;
+		top: 60%;
+		left: 50%;
+		transform: translate(-50%, -50%);
+	}
+    .sitelogo{
+        height: 50px;
+    }
+    .sitename{
+        font-size: 3rem;
+    }
+}

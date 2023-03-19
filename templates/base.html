@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+	
+	<head>
+		<!-- Required meta tags -->
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
+		<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500&display=swap" rel="stylesheet">
+		<!-- Bootstrap CSS -->
+		{% comment %} <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous"> {% endcomment %}
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.2/css/all.min.css" integrity="sha512-1sCRPdkRXhBV2PBLUdRb4tMg1w2YPf37qatUFeS7zlBy7jJI8Lf4VHwWfZZfpXtYSLy85pkm9GaYVYMfw5BC1A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+		<link rel="stylesheet" href="{% static 'css/responsive.css' %}">
+		<link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+
+		<title>{% block title %}{% endblock title %}</title>
+		<style>
+			{% block style %}{% endblock style %}
+		</style>
+
+	</head>
+	<body>
+        {% include "header.html" %}
+        {% block content %}
+
+        {% endblock content %}
+		{% include "footer.html" %}
+    	<!-- JavaScript CDN -->
+		
+		<script src="https://code.jquery.com/jquery-3.6.1.min.js" ></script>
+		<script src="{% static 'js/custom.js' %}"></script>
+		<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+	</body>
+</html>

@@ -1,0 +1,125 @@
+{% extends 'base.html' %}
+{% load social_share %}
+{% block title %} {{product_slug.product_name }} {% endblock title %}
+{% load static %}
+
+{% block content  %}
+
+<!--Searching-->
+{% include 'search_form.html' %}
+
+{% if product_slug %}
+<!--message-->
+    <section class="mt-3">
+        <div class="container">
+            <div class="text-end p-2 pe-5">
+                {% if is_customer_id %}
+                    {% comment %} <a class="btn btn-outline-dark mx-2" href="#">Collect</a> {% endcomment %}
+                    {% if like_status == 1 %}
+                    <a class="btn btn-dark mx-2" href="{% url 'likes' user_id=is_customer_id item_id=product_slug.id prd_slug=product_slug.slug %}">
+                        <span style="font-size:13px">{{total_likes  }}</span> Like
+                    </a>
+                    {% else %}
+                        <a style="border:1px solid " class="btn  mx-2" href="{% url 'likes' user_id=is_customer_id item_id=product_slug.id prd_slug=product_slug.slug %}">
+                            <span style="font-size:13px">{{total_likes  }}</span> Like
+                        </a>
+                    {% endif %}
+                    <a class="btn bg-primary text-light mx-2" href="{% url 'download' user_id=is_customer_id item_id=product_slug.id prd_slug=product_slug.slug %}">Download</a>
+                {% else %}
+                    <a class="btn btn-outline-dark mx-2" href="/login"> Like</a>
+                    <a class="btn bg-primary text-light mx-2" href="/login">Download</a>
+                
+                {% endif %}
+                <span class="dropdown">
+                    <button class="btn btn-outline-dark mx-2 dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                      Share
+                    </button>
+                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                      <li><span class="dropdown-item"> {% post_to_facebook object_or_url 'Facebook' %}</span></li>
+                      <li><span class="dropdown-item">{% post_to_whatsapp object_or_url 'Whatsapp' %}</span></li>
+                    </ul>
+                </span>
+            </div>
+        </div>
+    </section>
+            <!-- show Image -->
+    <section class="bg-light py-3">
+        <div class="container">
+            <div class="row d-flex justify-content-center">
+                <div class="col-md-10">
+                    <div >
+                        <figure class="text-center mt-3">
+                            <img id="imgpath" id="image" style="width: 100%" src="{{product_slug.image.url | urlencode }}" alt="{{product_slug.product_name}}" >
+                                
+                        </figure>
+                        <h5>{{product_slug.product_name }}</h5>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+<!-- Photo Details -->
+    <section class="photo_detail">
+        <div class="container py-3">
+            <div class="row d-flex justify-content-center">
+                <div class="col-md-10 card pb-2">
+                    <h3 style="font-weight: 600;font-family: emoji;">DETAILS</h3>
+                    <p style="font-size:12px">Posted by: <a href="http://127.0.0.1:8000/">{{product_slug.posted_by}}</a> {{product_slug.created_date|date:" d M Y"}} </p>
+                    <table class="table table-bordered">
+                        <tr>
+                            <td class="details_heading">File Name</td>
+                            <td><h6>{{filename | slice:"12:"}}</h6></td>
+                        </tr>
+                        <tr>
+                            <td class="details_heading">Specification</td>
+                            <td>
+                                <div style="font-size:15px">
+                                    {{product_slug.description | safe }}
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="details_heading">Views</td>
+                            <td><h6>{{product_slug.views}}</h6></td>
+                        </tr>
+                        {% comment %} <tr>
+                            <td>Downloads</td>
+                            <td><h6>{{product_slug.downloads}}</h6></td>
+                        </tr> {% endcomment %}
+                        <tr>
+                            <td class="details_heading" title="Not a product dimensions">Image Dimensions</td>
+                            <td>
+                                <h6 id="dimensions"></h6>
+                                <script>
+                                    const img = new Image();
+                                        // get the image
+                                        img.src = 'http://127.0.0.1:8000' + "{{product_slug.image.url}}";
+                                        // get height and width
+                                        img.onload = function() {
+                                        let w = this.width;
+                                        let h = this.height;
+                                        document.getElementById("dimensions").innerHTML = w + " X " + h ;
+                                        }
+                                </script>
+                            </td>
+                        </tr>
+                    </table>
+                    {% if is_customer_id %}
+                        <a class="btn bg-primary text-light mx-2" href="{% url 'download' user_id=is_customer_id item_id=product_slug.id prd_slug=product_slug.slug %}">Download</a>
+                    {% else %}
+                        <a class="btn bg-primary text-light mx-2" href="/login">Download</a>
+                    
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </section>
+{% endif %}
+
+<!--Comments-->
+{% include 'comment/comments.html' %}
+
+
+
+{% endblock content  %}
