@@ -1,5 +1,6 @@
 from django.urls import path,include
 from .import views
+from comment import views as cmt
 
 # admin.site.site_header = "Ecommerce Lucknow Admin"
 # admin.site.site_title = "Ecommerce Admin Portal"
@@ -13,8 +14,7 @@ urlpatterns = [
     path("likes/<user_id>/<item_id>/<prd_slug>",views.Likes, name="likes"),
     path("download/<user_id>/<item_id>/<prd_slug>",views.Download, name="download"),
     path("payment/<item_id>/<prd_slug>",views.Payment, name="payment"),
-    path("change-password/", views.ChangePassword, name="change-password"),
     
-    path("comment/",views.ProductComments, name="comment"),
-    path("reply/",views.ProductReply, name="reply")
+    path("comment/",cmt.ProductComments, name="comment"),
+    path("reply/",cmt.ProductReply, name="reply")
 ]

@@ -4,6 +4,6 @@ django-autoslug==1.9.8
 django-social-share==2.3.0
 django-tinymce==3.5.0
 mysqlclient==2.1.1
-Pillow==9.2.0
+Pillow==8.4.0
 sqlparse==0.4.2
 tzdata==2022.2

@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 {% load static %}
-{% block title %} Payment {% endblock title %}
+{% block title %} Payment | {{sitename}}{% endblock title %}
 
 {% block style %}
 td{
@@ -28,7 +28,7 @@ td{
                                 <td>{{is_customer}}</td>
                             <tr>
                                 <td><strong>Email</strong> </td>
-                                <td>{{customer_email}}</td>
+                                <td>{{user_email}}</td>
                             </tr>
                             </tr>
                             <tr>
@@ -36,12 +36,8 @@ td{
                                 <td>{{order.product_name}}</td>
                             </tr>
                             <tr>
-                                <td><strong>File Name</strong> </td>
-                                <td class="d-flex">{{filename | slice:"12:"}}</td>
-                            </tr>
-                            <tr>
                                 <td><strong>Type</strong> </td>
-                                <td class="d-flex">{{filetype | slice:"14:"}}</td>
+                                <td class="d-flex">{{filetype}}</td>
                             </tr>
                             <tr>
                                 <td><strong>File Size </strong></td>

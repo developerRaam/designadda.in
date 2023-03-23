@@ -2,7 +2,7 @@
 {% load social_share %}
 {% load static %}
 
-{% block title %} Download image here {% endblock title %}
+{% block title %} {{prd_data.product_name}} | {{sitename}}{% endblock title %}
 
 {% block content  %}
 {% if prd_data %}
@@ -10,9 +10,10 @@
         <div class="container px-0">
             <div class="row">
                 <div class="col-md-3"></div>
+                <!--Show product detail-->
                 <div class="col-md-6">
                     <figure class="text-center mt-3">
-                        <img id="imgpath" id="image" style="width: 100%" src="{{prd_data.image.url}}" alt="{{prd_data.product_name}}" >
+                        <img id="imgpath" id="image" style="width: 100%" src="{% if prd_data.image %}{{prd_data.image.url}}{% endif %}" alt="{{prd_data.product_name}}" >
                             
                     </figure>
                     {% comment %} <h4>{{prd_data.product_name }}</h4> {% endcomment %}
@@ -21,41 +22,65 @@
                         <table class="table table-bordered">
                             <tr>
                                 <td class="details_heading">File Name</td>
-                                <td><h5>{{filename | slice:"12:"}}</h5></td>
-                            </tr>
-                            <tr>
-                                <td class="details_heading">Specification</td>
-                                <td><div style="font-size:15px">{{prd_data.description | safe }}</div></td>
+                                <td>
+                                    {% comment %} <h6>{{filename | slice:"12:"}}</h6> {% endcomment %}
+                                    <h6>{{prd_data.product_name}}</h6>
+                                </td>
                             </tr>
                             <tr>
                                 <td class="details_heading">File Format</td>
-                                <td><h5>{{filetype |slice:"14:" }}</h5></td>
+                                <td>
+                                    {% if filetype %}
+                                        <h5>{{filetype}}</h5>
+                                    {% elif prd_data.file_format %}
+                                        <h5>{{prd_data.file_format}}</h5>
+                                    {% else %}
+                                    <h5>None</h5>
+                                    {% endif %}
+                                </td>
                             </tr>
                             <tr>
                                 <td class="details_heading">File Size</td>
-                                <td><h5>{{filesize | filesizeformat}}</h5></td>
+                                <td>
+                                    {% if filesize %}
+                                        <h5>{{filesize | filesizeformat}}</h5>
+                                    {% elif prd_data.file_size %}
+                                        <h5>{{prd_data.file_size}}</h5>
+                                    {% else %}
+                                        <h5>None</h5>
+                                    {% endif %}
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="details_heading">Price</td> 
+                                <td>
+                                    {% if prd_data.payment_choice == 0 %}
+                                        <span class="bg-success rounded-1 text-white p-1">Free</span>
+                                    {% elif prd_data.payment_choice == 1 %}
+                                    Rs.{{prd_data.price}} <span class="bg-success rounded-1 text-white p-1">Paid</span>
+                                    {% endif %}
+                                </td> 
                             </tr>
                         </table>
                     </div>
 
-                    {% comment %} <div class="text-center py-3">
-                        <a class="btn btn-primary" href="{{prd_data.image.url}}" download>
-                            Download Image
-                        </a>
-                    </div> {% endcomment %}
-                    {% if filesize %}
+                    <!-- Download status -->
                     <div class="text-center py-3">
-                        <a class="btn btn-primary" href="{% url 'payment' item_id=prd_data.id prd_slug=prd_data.slug %}">
-                            Order Product
-                        </a>
+                        {% if is_customer %}
+                            {% if prd_data.payment_choice == 1 %} <!-- Paid product -->
+                                {% comment %} <a class="btn btn-primary" href="{% url 'payment' item_id=prd_data.id prd_slug=prd_data.slug %}">Order Product</a> {% endcomment %}
+                                <p>Payment method not available</p>
+                            {% else %}
+                                {% if prd_data.payment_choice == 0 %} <!-- Free product -->
+                                    {% if prd_data.product_zip and prd_data.product_zip_status == 1 %}
+                                        <a class="btn btn-primary" href="{% if prd_data.product_zip %}{{prd_data.product_zip.url}}{% endif %}" download>Download Free</a>
+                                    {% elif prd_data.product_url and prd_data.product_url_status == 1 %}
+                                        <a class="btn btn-primary" target="_blank" href="{{prd_data.product_url}}" download>Download Free from drive</a>
+                                    {% endif %}
+                                {% endif %}
+                            {% endif %}
+                        {% endif %}
                     </div>
-                    {% else %}
-                    <div class="text-center py-3 desable">
-                        <p>
-                            <span class="text-dark bg-danger p-3">Product Not Available</span>
-                        </p>
-                    </div>
-                    {% endif %}
                 </div>
             </div>
         </div>

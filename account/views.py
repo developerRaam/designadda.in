@@ -1,10 +1,14 @@
-from django.shortcuts import render
+from django.shortcuts import render,redirect,HttpResponse
 from .models import *
 from app.models import *
+from django.contrib.auth.hashers import make_password,check_password
+import random
+import mimetypes
+from django.core.paginator import Paginator
+from django.contrib import messages
 
 #=====  User Registraition ==============
 def Register(request):
-    category = Category.objects.all()
     if request.session.has_key('customer_id'):
         return redirect('/')
     else:
@@ -25,11 +29,10 @@ def Register(request):
                 messages.success(request, "User created successful")
                 return redirect('login')
         else:
-            return render(request, 'account/register.html',{'category':category,})
+            return render(request, 'account/register.html')
 
 #====  User Login =======================
 def CustomerLogin(request):
-    my_data = Category.objects.all()
     if request.method == 'POST':
         email = request.POST['email']
         password = request.POST['password']
@@ -50,24 +53,24 @@ def CustomerLogin(request):
                     messages.success(request,"Login success")
                     return redirect('/')
                 else:
-                    messages.warning(request, "Your account is desable. Please forgot your password")
-                    return redirect('/login') 
+                    messages.warning(request, "Your account is disable. Please forgot your password")
+                    return redirect('login') 
             else:
                 messages.warning(request, 'Invalid credentials')
-                return redirect('/login')
+                return redirect('login')
         else:
             messages.warning(request, "Invalid credentials")
-            return redirect('/login')
+            return redirect('login')
     else:
         # Session already login
         if request.session.has_key('customer_id'):
             return redirect('/')
         else:
-            return render(request, 'account/login.html',{'category':my_data,})
+            return render(request, 'account/login.html')
 
 
 #===================== Customer Accounts =============================
-def CustomerAccounts(request):
+def Profile(request):
     if request.session.has_key('customer_id'):
         is_customer_id = request.session['customer_id']
         is_customer = request.session['customer_name']
@@ -77,7 +80,7 @@ def CustomerAccounts(request):
             'customer':customer,
             'is_customer':is_customer
         }
-        return render(request, 'account/customer-account.html', context)
+        return render(request, 'account/profile.html', context)
     else:
         return redirect('login')  
     
@@ -106,29 +109,68 @@ def UpdateAccount(request):
             profile_update.save()
             if profile_update:
                 messages.success(request, "Profile Successfully Updated")
-                return redirect('/account')
+                return redirect('profile')
             else:
                messages.success(request, "Profile Updatedation failed")
-               return redirect('/account') 
+               return redirect('update-account') 
         else:
            return render(request, "account/customer-account-update.html",context)
        
         return render(request, "account/customer-account-update.html",context)
     else:
-        return redirect('/login')
+        return redirect('login')
 
 
 #====== Logout ====================
-
 def Logout(request):
-    auth.logout(request)
-    return redirect('/')
+    del request.session['customer_id']
+    del request.session['user_email']
+    del request.session['customer_name']
+    messages.success(request, "Logout Success")
+    return redirect('login')
 
 
 #=============  Forgot =================
 def Forgot(request):
-    cat_data = Category.objects.all()
-    context = {
-        'category':cat_data,
-    }
-    return render(request, "account/forgot.html",context)
+    return render(request, "account/forgot.html")
+
+#=================== Change Password ========================
+def ChangePassword(request):
+    if request.session.has_key('customer_id'):
+        is_customer_id = request.session['customer_id']
+        is_customer_name = request.session['customer_name']
+        session = request.session['user_email']
+        cart_count = Cart.objects.all().count()
+        context={
+            'is_customer_id':is_customer_id,
+            'is_customer':is_customer_name,
+        }
+        customer = CustomerAccount.objects.get(email=session)
+        password = customer.password
+
+        if request.method == 'POST':
+            old_password = request.POST['old_Password']
+            new_Password = request.POST['new_Password']
+            re_Password = request.POST['re_Password']
+
+            #Check password (old password to new password)
+            o_password = check_password(old_password, password)
+
+            if new_Password == re_Password:
+                if o_password == True:
+                    n_password = make_password(new_Password)
+                    update_password = CustomerAccount.objects.get(email=session)
+                    update_password.password=n_password
+                    update_password.save()
+                    messages.success(request, "Password Successfuly Changed")
+                    return redirect('change-password')
+                else:
+                    messages.warning(request, "password not match")
+                    return redirect('change-password')
+            else:
+                messages.warning(request, "password not match")
+                return redirect('change-password')
+        else:
+            return render(request, "account/change-password.html",context)
+    else:
+        return redirect('login')

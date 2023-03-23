@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-{% block title %} Welcome to SKgraphics {% endblock title %}
+{% block title %} Welcome to Design Adda {% endblock title %}
 {% load static %}
 
 {% block content %}
@@ -10,21 +10,23 @@
     </script>
 {% endfor %}
 <!-- Header image -->
-<section>
+<section class="header-image">
     <div class="search_img">
-        <img class="w-100" height="400" src="{% static 'images/banner/banner.jpg' %}" alt="img">
-        <div class="search_bar">
-            <h2 class="text-center text-white">The best free stock design of photos, <br> royalty free images shared by creators.</h2><br>
-            <form class="d-flex justify-content-center" action="{% url 'search' %}" method="get">
-                <input class="form-control w-75 search_input rounded" type="search" name="q" placeholder="Search for free photo designs" aria-label="Search">
+        <img class="w-100" src="{% static 'images/banner/banner.jpg' %}" alt="Design adda" loading="lazy">
+    </div>
+    <div class="search_bar">
+        <div class="col-md-10">
+            <h2 class="text-center text-white" style="background:#00000038">The best free design or photos, <br> royalty free images shared by DesignAdda.</h2>
+            <form class="d-flex justify-content-center p-1" action="{% url 'search' %}" method="get">
+                <input class="form-control w-100 search_input rounded" type="search" name="q" placeholder="Search for free photo designs" aria-label="Search">
                 <button class="search_btn mt-0" name="submit" type="submit"><i class="fa-solid fa-magnifying-glass"></i></button>
-            </form><br>
-            <div class="d-flex justify-content-center">
-                <span class="text-info">Trending : &nbsp;</span>
-                <a class="text-white text-decoration-none" style="margin-right: 5px;" href="#">Animal,</a>
-                <a class="text-white text-decoration-none" style="margin-right: 5px;" href="#">Corian,</a>
-                <a class="text-white text-decoration-none" style="margin-right: 5px;" href="#">Texture</a>
-            </div>
+            </form>
+            {% comment %} <div class="d-flex justify-content-center">
+            <span class="text-info">Trending : &nbsp;</span>
+            <a class="text-white text-decoration-none" style="margin-right: 5px;" href="#">Animal,</a>
+            <a class="text-white text-decoration-none" style="margin-right: 5px;" href="#">Corian,</a>
+            <a class="text-white text-decoration-none" style="margin-right: 5px;" href="#">Texture</a>
+            </div> {% endcomment %}
         </div>
     </div>
 </section>
@@ -47,7 +49,7 @@
 <!-- Free Stock Photos -->
 <section>
     <div class="container mb-4">
-        <h2>Free Stock Photos</h2>
+        <h2 class="fs-4">Design Adda Products</h2>
         {% include 'app/item-card.html' %}
 
         <!--Pagination-->

@@ -1,0 +1,68 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %} Profile | {{sitename}}{% endblock title %}
+{% block content %}
+<!-- message -->
+{% include "message.html" %}
+<section>
+    <div class="container py-3">
+        {% if customer %}
+        <div class="row">
+            <div class="col-md-2"></div>
+            <div class="col-md-8 p-0 card py-2 shadow-sm">
+                <div class="px-3">
+                    <h4>User Profile </h4>
+                    <table class="table table-bordered">
+                        <tr>
+                            <td><span class="text-secondary">Name :</span></td>
+                            <td><strong>{{customer.first_name}}  {{customer.last_name}}</strong></td>
+                        </tr>
+                        <tr>
+                            <td><span class="text-secondary">Mobile :</span></td>
+                            <td><strong>{{customer.mobile}}</strong></td>
+                        </tr>
+                        <tr>
+                            <td><span class="text-secondary">Email :</span></td>
+                            <td><strong>{{customer.email}}</strong></td>
+                        </tr>
+                    </table>
+                    <div class="w-100 text-end">
+                        <a class="btn btn-outline-success" href="/account/update-account">Edit</a>
+                    </div>
+                </div><hr>
+                <!--========================================================================-->
+                <div class="px-3">
+                    <h4>Address</h4>
+                    <table class="table table-bordered">
+                        <tr>
+                            <td><span class="text-secondary">Country :</span></td>
+                            <td><strong>{{customer.country}}</strong></td>
+                        </tr>
+                        <tr>
+                            <td><span class="text-secondary">State :</span></td>
+                            <td><strong>{{customer.state}}</strong></td>
+                        </tr>
+                        <tr>
+                            <td><span class="text-secondary">City :</span></td>
+                            <td><strong>{{customer.city}}</strong></td>
+                        </tr>
+                    </table>
+                    <div class="w-100 text-end">
+                        <a class="btn btn-outline-success" href="3">Edit</a>
+                    </div>
+                </div><hr>
+
+                <!--========================================================================-->
+                <div class="px-3">
+                    <h4>Status</h4>
+                    <div>
+                        <p><span class="text-secondary">status :</span> {{customer.status}}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+    </div>
+</section>
+
+{% endblock content %}

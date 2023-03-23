@@ -9,7 +9,7 @@
 <!-- Free Stock Photos -->
 <section>
     <div class="container px-0 mb-4 mt-3">
-        <h2>Search Product</h2>
+        <h4>Search results <span class="fs-5">{% if product %}{{product|length}}{% endif %}</span></h4>
         <div class="row gy-4">
             {% include 'app/item-card.html' %}
         </div>

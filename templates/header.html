@@ -1,7 +1,7 @@
 {% load static %}
 <header class="py-1 container">
     <div class="d-flex justify-content-center align-items-center">
-        <img class="sitelogo" height="100" src="{% static 'images/icons/Design-Adda-Logo.png' %}" alt="">
+        <img class="sitelogo" height="100" src="{% static 'images/icons/Design-Adda-Logo.png' %}" alt="Design Adda" loading="lazy" />
         <h2 class="ms-3 sitename"  style=""><a class="text-decoration-none" href="/">DesignAdda<span>.in</span></a></h2>
     </div>
 </header>
@@ -30,22 +30,22 @@
                 </li>
                 {% if is_customer %}
                     <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle text-white" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                            {{ is_customer }}
+                        <a class="nav-link dropdown-toggle btn-success p-2 text-white" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            {{ user_name }}
                         </a>
                         <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                             <li><a class="dropdown-item" href="/">Home</a></li>
-                            <li><a class="dropdown-item" href="/">Your Product</a></li>
-                            <li><a class="dropdown-item" href="/account">Account</a></li>
-                            <li><a class="dropdown-item" href="/change-password">Change Password</a></li>
+                            {% comment %} <li><a class="dropdown-item" href="/">Your Product</a></li> {% endcomment %}
+                            <li><a class="dropdown-item" href="/account/profile">Profile</a></li>
+                            <li><a class="dropdown-item" href="/account/change-password">Change Password</a></li>
                             {% comment %} <li><a class="dropdown-item" href="/cart">Cart</a></li>
                             <li><a class="dropdown-item" href="/ordered">Ordered</a> {% endcomment %}
-                            <li><a class="dropdown-item" href="/logout">Logout</a></li>
+                            <li><a class="dropdown-item" href="/account/logout">Logout</a></li>
                         </ul>
                     </li>
                  {% else %}
                  <li>
-                    <a class="btn btn-outline-dark text-white" href="/account">Account</a>
+                    <a class="btn btn-success text-white" href="/account">Account</a>
                 </li>
                 {% endif %}
                 
