@@ -115,18 +115,28 @@ def ProductDetail(request,prd_slug):
         }
         return render(request,"app/detail.html",context)
 
-
 #=============================== Category Data  ================================================
-def CategoryData(request,cat_id):
-    product = Product.objects.filter(product_type=cat_id)   
-    paginator = Paginator(product, 2)  # Show 2 objects per page
+def CategoryData(request,cat_slug):
+    category = Category.objects.get(slug=cat_slug)
+    product = Product.objects.filter(product_type_id=category.id)   
+    paginator = Paginator(product, 12)  # Show 2 objects per page
     page = request.GET.get('page')
     product = paginator.get_page(page)
     context = {
         'product':product,
-
     }
-    return render(request, "app/filter-by-cat-name.html",context)
+    return render(request, "app/filter-sub-cat.html",context)
+#=============================== SubCategory Data  ================================================
+def SubCategoryData(request,sub_cat_slug):
+    category = SubCategory.objects.get(slug=sub_cat_slug)
+    product = Product.objects.filter(sub_category_id=category.id)   
+    paginator = Paginator(product, 12)  # Show 2 objects per page
+    page = request.GET.get('page')
+    product = paginator.get_page(page)
+    context = {
+        'product':product,
+    }
+    return render(request, "app/filter-sub-cat.html",context)
 
 
 #=============  Likes =================

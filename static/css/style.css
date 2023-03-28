@@ -59,6 +59,10 @@ body{
 .search_btn i{
 	margin-right: 10px;
 }
+.toggle_hover:hover .toggle_hover_menu{
+  display: block;
+}
+
 
 /*Explore button*/
 .explore_button{

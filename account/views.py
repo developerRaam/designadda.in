@@ -6,6 +6,7 @@ import random
 import mimetypes
 from django.core.paginator import Paginator
 from django.contrib import messages
+from django.core.mail import send_mail
 
 #=====  User Registraition ==============
 def Register(request):
@@ -31,6 +32,7 @@ def Register(request):
         else:
             return render(request, 'account/register.html')
 
+
 #====  User Login =======================
 def CustomerLogin(request):
     if request.method == 'POST':
@@ -46,7 +48,7 @@ def CustomerLogin(request):
             decodepass = check_password(password, encodepass)
 
             if cust_email == email and decodepass == True:
-                if user.status == "Active":
+                if user.status == 1:
                     request.session['customer_id']=customer_id
                     request.session['user_email']=email
                     request.session['customer_name']=customer_name

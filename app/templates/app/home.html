@@ -32,19 +32,7 @@
 </section>
 
 <!-- Explore button -->
-<section class="my-4">
-    <div class="container px-0">
-        <div class="col-md-12">
-            <div class="d-flex justify-content-center flex-wrap">
-                {% if category %}
-                    {% for data in category %}
-                        <a class="explore_button" href="{% url 'filter-by-cat-name' cat_id=data.id %}">{{data.name}}</a>
-                    {% endfor %}
-                {% endif %}
-            </div>
-        </div>
-    </div>	
-</section>
+{% include 'app/explore-button.html' %}
 
 <!-- Free Stock Photos -->
 <section>

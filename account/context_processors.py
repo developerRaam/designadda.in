@@ -1,5 +1,5 @@
 from account.models import CustomerAccount
-from app.models import Category
+from app.models import Category,SubCategory
 
 def UserAuthentication(request):
     sitename = "Design Adda"
@@ -25,12 +25,19 @@ def UserAuthentication(request):
     
 def AllCategories(request):
     categoreis = Category.objects.all()
+    sub_category = SubCategory.objects.all()
     cat_list = []
+    sub_cat_list = []
     for cat in categoreis:
         if cat.status == 1:
             data = cat
             cat_list.append(data)
+    for subcat in sub_category:
+        if subcat.status == 1:
+            data = subcat
+            sub_cat_list.append(data)
     context={
         'category':cat_list,
+        'sub_cat_list':sub_cat_list,
     }
     return(context)

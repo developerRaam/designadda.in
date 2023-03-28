@@ -15,21 +15,29 @@
         </button>
         <div class="collapse navbar-collapse justify-content-center" id="navbarSupportedContent">
             <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
-                <li class="nav-item home_btn2">
+                <li class="nav-item mx-2 home_btn2">
                     <a class="nav-link active text-white" aria-current="page" href="/">Home</a>
                 </li>
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle text-white" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                        Desgin
+                <!-- start Categories-->
+                {% if category or sub_cat_list %}
+                    {% for cat in category %}
+                <li class="nav-item mx-2 dropdown toggle_hover">
+                    <a class="nav-link text-white " href="{% url 'filter-cat' cat_slug=cat.slug %}" >
+                        {{cat.name}}
                     </a>
-                    <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        {% for data in category %}
-                            <li><a class="dropdown-item" href="{% url 'filter-by-cat-name' cat_id=data.id %}">{{data.name}}</a></li>
+                    <ul class="dropdown-menu toggle_hover_menu" aria-labelledby="navbarDropdown">
+                        {% for sub_cat in sub_cat_list %}
+                        {% if cat.id == sub_cat.category_id %}
+                            <li><a class="dropdown-item" href="{% url 'filter-sub-cat' sub_cat_slug=sub_cat.slug %}">{{sub_cat.name}}</a></li>
+                        {% endif %}
                         {% endfor %}
                     </ul>
                 </li>
+                    {% endfor %}
+                {% endif %}
+                <!-- End categories -->
                 {% if is_customer %}
-                    <li class="nav-item dropdown">
+                    <li class="nav-item mx-2 dropdown">
                         <a class="nav-link dropdown-toggle btn-success p-2 text-white" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                             {{ user_name }}
                         </a>

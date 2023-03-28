@@ -13,6 +13,16 @@ class Category(models.Model):
     status = models.SmallIntegerField(choices=STATUS, default=1)
     created_date = models.DateTimeField(auto_now_add=True)
     slug = AutoSlugField(populate_from='name', unique=True,null=True, default=None)
+    def __str__(self):
+        return self.name
+    
+    
+class SubCategory(models.Model):
+    name = models.CharField(max_length=50)
+    category = models.ForeignKey(Category, verbose_name="Sub Category", on_delete=models.CASCADE)
+    status = models.SmallIntegerField(choices=STATUS, default=1)
+    created_date = models.DateTimeField(auto_now_add=True)
+    slug = AutoSlugField(populate_from='name', unique=True,null=True, default=None)
 
     def __str__(self):
 	    return self.name
@@ -21,6 +31,7 @@ class Product(models.Model):
     payment_choice = models.SmallIntegerField(choices=fee_choice, default=1)
     product_name = models.CharField(max_length=255)
     product_type = models.ForeignKey(Category, verbose_name="Category", on_delete=models.CASCADE)
+    sub_category = models.ForeignKey(SubCategory, verbose_name="Sub Category", on_delete=models.CASCADE)
     price = models.FloatField(default='0')
     mrp = models.FloatField(default='0')
     image = models.ImageField(upload_to="upload/",null=True, blank=True)

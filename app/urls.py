@@ -9,7 +9,8 @@ from comment import views as cmt
 urlpatterns = [
     path("",views.Home,name="home"),
     path("detail/<prd_slug>",views.ProductDetail,name="detail"),
-    path("filter-by-cat-name/<int:cat_id>",views.CategoryData, name="filter-by-cat-name"),
+    path("s/<str:cat_slug>",views.CategoryData, name="filter-cat"),
+    path("ss/<str:sub_cat_slug>",views.SubCategoryData, name="filter-sub-cat"),
     path("search",views.SearchProduct, name="search"),
     path("likes/<user_id>/<item_id>/<prd_slug>",views.Likes, name="likes"),
     path("download/<user_id>/<item_id>/<prd_slug>",views.Download, name="download"),
