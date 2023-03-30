@@ -119,7 +119,7 @@ def ProductDetail(request,prd_slug):
 def CategoryData(request,cat_slug):
     category = Category.objects.get(slug=cat_slug)
     product = Product.objects.filter(product_type_id=category.id)   
-    paginator = Paginator(product, 12)  # Show 2 objects per page
+    paginator = Paginator(product, 15)  # Show 2 objects per page
     page = request.GET.get('page')
     product = paginator.get_page(page)
     context = {
@@ -130,7 +130,7 @@ def CategoryData(request,cat_slug):
 def SubCategoryData(request,sub_cat_slug):
     category = SubCategory.objects.get(slug=sub_cat_slug)
     product = Product.objects.filter(sub_category_id=category.id)   
-    paginator = Paginator(product, 12)  # Show 2 objects per page
+    paginator = Paginator(product, 15)  # Show 2 objects per page
     page = request.GET.get('page')
     product = paginator.get_page(page)
     context = {

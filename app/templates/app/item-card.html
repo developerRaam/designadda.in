@@ -5,7 +5,9 @@
     <div class="col-6 col-sm-6 col-md-4 col-lg-3">
         <div class="card">
           <a href="{% url 'detail' prd_slug=data.slug %}">
-            <img class="card-img w-100" height="400" src="{% if data.image %}{{data.image.url}} {% else %} {% static 'images/image-not-available.png' %} {% endif %}" alt="{{data.product_name}}" loading="lazy">
+            <div class="w-100" style="max-height:350px">
+              <img class="card-img" height="350" src="{% if data.image %}{{data.image.url}} {% else %} {% static 'images/image-not-available.png' %} {% endif %}" alt="{{data.product_name}}" loading="lazy">
+            </div>
             <div class="home_image_name">
                 <span>
                     {{data.product_name}}

@@ -15,7 +15,7 @@ class ProductAdmin(admin.ModelAdmin):
     def image_tag(self, obj):
         if obj.image:
             return format_html('<img src="{}" style="max-width:70px; max-height:70px"/>'.format(obj.image.url))
-    list_display = ("product_name","image_tag","slug","posted_by","product_type","sub_category","views","downloads","image","created_date")
+    list_display = ("product_name","image_tag","price","mrp","posted_by","product_type","sub_category","views","downloads","created_date")
     list_filter = ("product_type","created_date")
     search_fields=('product_name',)
     list_per_page=15 #record 15 per page

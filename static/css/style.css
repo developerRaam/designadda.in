@@ -200,3 +200,8 @@ body{
 	color: #0d3b5c !important;
 	top:0 !important;
   }
+
+.image_detail{
+  max-width: -webkit-fill-available;
+    max-height: 500px;
+}
