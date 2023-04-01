@@ -3,9 +3,12 @@ from .models import *
 from app.models import *
 from django.contrib.auth.hashers import make_password,check_password
 import random
+import uuid
 import mimetypes
+from django.contrib.auth.models import auth
 from django.core.paginator import Paginator
 from django.contrib import messages
+from django.conf import settings
 from django.core.mail import send_mail
 
 #=====  User Registraition ==============
@@ -18,19 +21,73 @@ def Register(request):
             last_name = request.POST['last_name']
             mobile = request.POST['mobile']
             email = request.POST['email']
-
             password = make_password(request.POST['password'])
             
-            if CustomerAccount.objects.filter(email=email).exists():
-                messages.warning(request, "Email already exists")
+            try:
+                if (first_name and last_name and mobile and email and password) == '':
+                    messages.warning(request, "Please fill out this field.")
+                    return redirect('register')
+                else:
+                    if CustomerAccount.objects.filter(email=email).exists():
+                        messages.warning(request, "Email already exists")
+                        return redirect('register')
+                    else:
+                        email_otp =  random.randint(111111, 999999) # generate random otp
+                        user = CustomerAccount.objects.create(first_name=first_name,last_name=last_name,mobile=mobile,email=email,password=password,email_otp=email_otp)
+                        user.save()
+                        send_mail_after_registration(email, email_otp)
+                        messages.success(request, "We have sent OTP Please check your mail inbox/spam")
+                        request.session['set_email'] = email
+                        return redirect('send-otp')
+            except Exception as e:
+                messages.warning(request, "Something went wrong! Please check your Internet")
                 return redirect('register')
-            else:
-                user = CustomerAccount.objects.create(first_name=first_name,last_name=last_name,mobile=mobile,email=email,password=password)
-                user.save()
-                messages.success(request, "User created successful")
-                return redirect('login')
         else:
             return render(request, 'account/register.html')
+        
+# Send Email otp
+def OTP_Send(request):
+    if request.session.has_key('set_email'):
+        set_email = request.session['set_email']
+        return render(request , 'account/email_otp_send.html',{'set_email':set_email})
+    else:
+        return HttpResponse("Bad request") 
+
+# send mail
+def send_mail_after_registration(email, email_otp):
+    subject = 'Verify your Email. This otp send from DesignAdda.in'
+    message = f"Your OTP number is :{email_otp}"
+    email_from = settings.EMAIL_HOST_USER
+    recipient_list = [email]
+    send_mail(subject, message , email_from ,recipient_list ) 
+
+# Email Verification
+def Email_Verification(request):
+    if request.method == 'POST':
+        email_otp = request.POST['email_otp']
+        set_email = request.session['set_email']
+        try:
+            profile_obj = CustomerAccount.objects.filter(email_otp=email_otp).first()
+            if profile_obj:
+                if profile_obj.email_varify == True:
+                    messages.success(request, 'Your account is already verified.')
+                    return redirect('login')
+                else:
+                    profile_obj.email_varify = True
+                    profile_obj.save()
+                    CustomerAccount.objects.filter(email=set_email,email_otp=email_otp).update(email_otp=None)# Delete otp
+                    del request.session['set_email'] # destroy session
+                    messages.success(request, 'Registration completed successfully.')
+                    return redirect('login')
+            else:
+                messages.warning(request,"OTP is wrong")
+                return redirect('send-otp')
+        
+        except Exception as e:
+            messages.warning(request, "Sorry! email not verified")
+            return redirect('register')
+    else:
+        pass
 
 
 #====  User Login =======================
@@ -48,14 +105,17 @@ def CustomerLogin(request):
             decodepass = check_password(password, encodepass)
 
             if cust_email == email and decodepass == True:
-                if user.status == 1:
+                if user.status == 0:
+                    messages.warning(request, "Your account is disable. Please contact your administrator")
+                    return redirect('login')
+                elif user.email_varify == True:
                     request.session['customer_id']=customer_id
                     request.session['user_email']=email
                     request.session['customer_name']=customer_name
                     messages.success(request,"Login success")
                     return redirect('/')
                 else:
-                    messages.warning(request, "Your account is disable. Please forgot your password")
+                    messages.warning(request, "Your email is not verified. Please forgot your password!")
                     return redirect('login') 
             else:
                 messages.warning(request, 'Invalid credentials')
@@ -131,10 +191,65 @@ def Logout(request):
     messages.success(request, "Logout Success")
     return redirect('login')
 
-
-#=============  Forgot =================
+ 
+#==================== Forgot Password ================================
 def Forgot(request):
-    return render(request, "account/forgot.html")
+    if request.session.has_key('customer_id'):
+        return redirect('/')
+    else:
+        if request.method == "POST":
+            email = request.POST['email']
+            try:
+                if CustomerAccount.objects.filter(email=email).exists():
+                    token_key = uuid.uuid4()
+                    CustomerAccount.objects.filter(email=email).update(auth_token=token_key)
+                    send_mail_reset_password(email,token_key)
+                    messages.success(request, "We have send email for reset password please check your mail")
+                    return redirect('forgot-password')
+                else:
+                    messages.warning(request,"Email does not exists")
+                    return redirect('forgot-password')
+            except:
+                return HttpResponse("Check your internet")
+        else:
+            return render(request, "account/forgot.html")
+# send mail for reset
+def send_mail_reset_password(email, token_key):
+    subject = 'Reset Your Password'
+    message = f"Click here to reset your password :http://127.0.0.1:8000/account/reset-password/{email}/{token_key}"
+    #message = f"Click here to reset your password :https://www.herculeen.com/reset-password/{email}/{token_key}"
+    email_from = settings.EMAIL_HOST_USER
+    recipient_list = [email]
+    send_mail(subject, message , email_from ,recipient_list ) 
+#======================= Reset Password ===========================
+def ResetPassword(request,email,token_key):
+    if request.session.has_key('customer_id'):
+        return redirect('/')
+    else:
+        context={
+                'email':email,
+                'token_key':token_key
+        }
+        if request.method == 'POST':
+            npassword = request.POST['npassword']
+            rpassword = request.POST['rpassword']
+            try:
+                if npassword == rpassword:
+                    npassword = make_password(npassword)
+                    change_pass = CustomerAccount.objects.get(email=email,auth_token=token_key)
+                    change_pass.password=npassword
+                    change_pass.email_varify = True
+                    change_pass.save()
+                    messages.success(request,"Congratulations! Your password has been changed successfully.")
+                    CustomerAccount.objects.filter(email=email,auth_token=token_key).update(auth_token=None)# Delete otp
+                    return redirect('login')
+                else:
+                    messages.warning(request,"Password not match.")
+                    return redirect('reset-password',email,token_key)
+            except:
+                return HttpResponse("Invalid url request")
+        else:
+            return render(request, "account/reset-password.html",context)
 
 #=================== Change Password ========================
 def ChangePassword(request):

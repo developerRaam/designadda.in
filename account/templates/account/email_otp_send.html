@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+{% block title %} Password forgot | {{sitename}}{% endblock title %}
+
+{% block content %}
+{% include "message.html" %}
+<div class="container my-5">
+    <div class="col-md-4 m-auto">
+        <div class="card shadow-sm">
+            <div class="card-body">
+                <h2>Enter OTP</h2>
+                <form action="{% url 'email-verify' %}" method="post">
+                    {% csrf_token %}
+                    <div class="my-3">
+                        <label for="otp">Enter 6 digit otp</label><br>
+                        <input class="form-control" type="number" name="email_otp" id="email_otp" placeholder="Enter 6 digit OTP" required>
+                    </div>
+                    <div>
+                        <input class="form-control btn btn-success" type="submit" name="submit" value="Submit">
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content %}

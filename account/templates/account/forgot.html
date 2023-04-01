@@ -13,9 +13,9 @@
             {% endfor %}
             <div class="card shadow-lg p-4">
                 <!-- Login -->
-                <form class="mt-4" action="" method="post">
+                <form class="mt-4" action="{% url 'forgot-password' %}" method="post">
                     {% csrf_token %}
-                    <h2>User Login</h2>
+                    <h2>Forgot Password</h2>
                     {% comment %} <div>
                         <label for="username">Username</label>
                         <input type="text" class="form-control mb-3" name="username" placeholder=" username" required>
