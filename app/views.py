@@ -5,6 +5,7 @@ from .models import *
 from comment.models import Comment,Reply    
 from django.contrib.auth.hashers import make_password,check_password
 import random
+from django.http import JsonResponse
 import mimetypes
 from django.core.paginator import Paginator
 from account.context_processors import UserAuthentication
@@ -212,3 +213,10 @@ def Payment(request, item_id,prd_slug):
         return redirect('login')
   
   
+# def get_cities(request):
+#     id_product_type = request.GET.get('id_product_type')
+#     cities = SubCategoryData.objects.filter(category_id=id_product_type)
+#     options = ''
+#     for city in cities:
+#         options += f'<option value="{city.id}">{city.name}</option>'
+#     return JsonResponse(options, safe=False)

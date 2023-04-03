@@ -17,5 +17,7 @@ urlpatterns = [
     path("payment/<item_id>/<prd_slug>",views.Payment, name="payment"),
     
     path("comment/",cmt.ProductComments, name="comment"),
-    path("reply/",cmt.ProductReply, name="reply")
+    path("reply/",cmt.ProductReply, name="reply"),
+    
+    #  path('app/product/add/', views.get_cities, name='get_cities'),
 ]

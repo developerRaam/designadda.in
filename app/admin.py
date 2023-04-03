@@ -1,5 +1,6 @@
 from django.contrib import admin
 from .models import *
+from django.http import JsonResponse
 from django.utils.html import format_html
 
 # Register your models here.
@@ -12,6 +13,10 @@ class SubCategoryAdmin(admin.ModelAdmin):
 admin.site.register(SubCategory,SubCategoryAdmin)
 
 class ProductAdmin(admin.ModelAdmin):
+    class Media:
+        js = ('js/admin_dependent_category.js',)
+    class Media:
+        css = {'all': ('css/admin.css',)}
     def image_tag(self, obj):
         if obj.image:
             return format_html('<img src="{}" style="max-width:70px; max-height:70px"/>'.format(obj.image.url))
